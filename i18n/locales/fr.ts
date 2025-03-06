@@ -1,0 +1,76 @@
+export default {
+  translation: {
+    calculator: {
+      title: 'Calculatrice',
+      register: 'Enregistrer',
+      clear: 'Effacer',
+      undo: 'Annuler',
+      subtract: 'Soustraire',
+      add: 'Ajouter',
+    },
+    history: {
+      title: 'Historique de Notation',
+      empty: 'Aucun historique',
+      emptySubtext: 'Vos sessions de notation apparaîtront ici',
+      total: 'Total',
+      noHistory: 'Aucun historique de notation',
+      sessionsWillAppear: 'Vos sessions de notation apparaîtront ici',
+      pressRegisterButton: 'Appuyez sur le bouton d\'enregistrement dans la calculatrice pour sauvegarder une session',
+      noOperations: 'Aucune opération dans cette session',
+      errors: {
+        loadFailed: 'Échec de la récupération des sessions d\'historique:',
+        clearFailed: 'Échec de l\'effacement de l\'historique:',
+      },
+      alerts: {
+        clearTitle: 'Effacer l\'Historique',
+        clearConfirm: 'Êtes-vous sûr de vouloir effacer tout l\'historique de notation ? Cette action ne peut pas être annulée.',
+        cleared: 'Tout l\'historique a été effacé.',
+        clearError: 'Échec de l\'effacement de l\'historique. Veuillez réessayer.',
+      }
+    },
+    settings: {
+      title: 'Paramètres',
+      appearance: 'Apparence',
+      darkMode: 'Mode sombre',
+      feedback: 'Retour',
+      sound: 'Son',
+      vibration: 'Vibration',
+      calculator: 'Calculatrice',
+      customPoints: 'Points personnalisés',
+      pointLimits: 'Limites de points',
+      minPoint: 'Point minimum',
+      maxPoint: 'Point maximum',
+      language: 'Langue',
+      data: 'Données',
+      clearData: 'Effacer toutes les données',
+      version: 'Version',
+      madeWith: 'Fait avec ❤️ par TakiAcademy',
+    },
+    languages: {
+      fr: 'Français',
+      en: 'Anglais',
+      ar: 'Arabe',
+    },
+    alerts: {
+      clearData: {
+        title: 'Effacer les données',
+        message: 'Êtes-vous sûr de vouloir effacer toutes les données ? Cette action est irréversible.',
+        cancel: 'Annuler',
+        confirm: 'Effacer',
+      },
+      pointLimit: {
+        title: 'Limite de points',
+        message: 'Vous avez dépassé la limite de points autorisée (0-20).',
+        ok: 'OK',
+      },
+      success: 'Succès',
+      error: 'Erreur',
+    },
+    common: {
+      cancel: 'Annuler',
+      clear: 'Effacer',
+      success: 'Succès',
+      error: 'Erreur',
+    },
+  },
+};

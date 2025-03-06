@@ -1,0 +1,76 @@
+export default {
+  translation: {
+    calculator: {
+      title: 'Calculator',
+      register: 'Register',
+      clear: 'Clear',
+      undo: 'Undo',
+      subtract: 'Subtract',
+      add: 'Add',
+    },
+    history: {
+      title: 'Grading History',
+      empty: 'No history',
+      emptySubtext: 'Your grading sessions will appear here',
+      total: 'Total',
+      noHistory: 'No grading history',
+      sessionsWillAppear: 'Your grading sessions will appear here',
+      pressRegisterButton: 'Press the register button in the calculator to save a session',
+      noOperations: 'No operations in this session',
+      errors: {
+        loadFailed: 'Failed to load history sessions:',
+        clearFailed: 'Failed to clear history:',
+      },
+      alerts: {
+        clearTitle: 'Clear History',
+        clearConfirm: 'Are you sure you want to clear all grading history? This action cannot be undone.',
+        cleared: 'All history has been cleared.',
+        clearError: 'Failed to clear history. Please try again.',
+      }
+    },
+    settings: {
+      title: 'Settings',
+      appearance: 'Appearance',
+      darkMode: 'Dark Mode',
+      feedback: 'Feedback',
+      sound: 'Sound',
+      vibration: 'Vibration',
+      calculator: 'Calculator',
+      customPoints: 'Custom Points',
+      pointLimits: 'Point Limits',
+      minPoint: 'Minimum Point',
+      maxPoint: 'Maximum Point',
+      language: 'Language',
+      data: 'Data',
+      clearData: 'Clear All Data',
+      version: 'Version',
+      madeWith: 'Made with ❤️ by TakiAcademy',
+    },
+    languages: {
+      fr: 'French',
+      en: 'English',
+      ar: 'Arabic',
+    },
+    alerts: {
+      clearData: {
+        title: 'Clear Data',
+        message: 'Are you sure you want to clear all data? This action cannot be undone.',
+        cancel: 'Cancel',
+        confirm: 'Clear',
+      },
+      pointLimit: {
+        title: 'Point Limit',
+        message: 'You have exceeded the allowed point limit (0-20).',
+        ok: 'OK',
+      },
+      success: 'Success',
+      error: 'Error',
+    },
+    common: {
+      cancel: 'Cancel',
+      clear: 'Clear',
+      success: 'Success',
+      error: 'Error',
+    },
+  },
+};

@@ -1,0 +1,76 @@
+export default {
+  translation: {
+    calculator: {
+      title: 'الحاسبة',
+      register: 'تسجيل',
+      clear: 'مسح',
+      undo: 'تراجع',
+      subtract: 'طرح',
+      add: 'إضافة',
+    },
+    history: {
+      title: 'سجل التقييم',
+      empty: 'لا يوجد سجل',
+      emptySubtext: 'ستظهر هنا جلسات التقييم الخاصة بك',
+      total: 'المجموع',
+      noHistory: 'لا يوجد سجل تقييم',
+      sessionsWillAppear: 'ستظهر هنا جلسات التقييم الخاصة بك',
+      pressRegisterButton: 'اضغط على زر التسجيل في الحاسبة لحفظ الجلسة',
+      noOperations: 'لا توجد عمليات في هذه الجلسة',
+      errors: {
+        loadFailed: 'فشل في تحميل جلسات السجل:',
+        clearFailed: 'فشل في مسح السجل:',
+      },
+      alerts: {
+        clearTitle: 'مسح السجل',
+        clearConfirm: 'هل أنت متأكد من رغبتك في مسح كل سجل التقييم؟ لا يمكن التراجع عن هذا الإجراء.',
+        cleared: 'تم مسح كل السجل.',
+        clearError: 'فشل في مسح السجل. يرجى المحاولة مرة أخرى.',
+      }
+    },
+    settings: {
+      title: 'الإعدادات',
+      appearance: 'المظهر',
+      darkMode: 'الوضع الداكن',
+      feedback: 'التفاعل',
+      sound: 'الصوت',
+      vibration: 'الاهتزاز',
+      calculator: 'الحاسبة',
+      customPoints: 'النقاط المخصصة',
+      pointLimits: 'حدود النقاط',
+      minPoint: 'الحد الأدنى للنقاط',
+      maxPoint: 'الحد الأقصى للنقاط',
+      language: 'اللغة',
+      data: 'البيانات',
+      clearData: 'مسح كل البيانات',
+      version: 'الإصدار',
+      madeWith: 'صنع بـ ❤️ بواسطة تاكي أكاديمي',
+    },
+    languages: {
+      fr: 'الفرنسية',
+      en: 'الإنجليزية',
+      ar: 'العربية',
+    },
+    alerts: {
+      clearData: {
+        title: 'مسح البيانات',
+        message: 'هل أنت متأكد من رغبتك في مسح جميع البيانات؟ لا يمكن التراجع عن هذا الإجراء.',
+        cancel: 'إلغاء',
+        confirm: 'مسح',
+      },
+      pointLimit: {
+        title: 'حد النقاط',
+        message: 'لقد تجاوزت الحد المسموح به للنقاط (0-20).',
+        ok: 'موافق',
+      },
+      success: 'نجاح',
+      error: 'خطأ',
+    },
+    common: {
+      cancel: 'إلغاء',
+      clear: 'مسح',
+      success: 'نجاح',
+      error: 'خطأ',
+    },
+  },
+};
