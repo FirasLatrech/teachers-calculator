@@ -5,18 +5,20 @@ import { useTheme } from '@/hooks/useTheme';
 
 export default function TabLayout() {
   const { t } = useTranslation();
+  const { isDarkMode, colors, theme } = useTheme();
 
   return (
     <Tabs
+      key={`tabs-${theme}-${isDarkMode}`}
       screenOptions={{
-        tabBarActiveTintColor: '#35bbe3',
+        tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: '#a0a0a0',
         tabBarStyle: {
-          backgroundColor: '#ffffff',
+          backgroundColor: colors.tabBar,
           borderTopWidth: 1,
-          borderTopColor:   '#f0f0f0',
+          borderTopColor: colors.border,
           elevation: 0,
-          height: 60,
+          height: 70,
           paddingBottom: 10,
         },
         tabBarLabelStyle: {
@@ -24,7 +26,8 @@ export default function TabLayout() {
           fontSize: 12,
         },
         headerShown: false,
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
