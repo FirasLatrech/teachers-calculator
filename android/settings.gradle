@@ -21,7 +21,7 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
   }
 }
 
-rootProject.name = 'TakiAcademy Calculator'
+rootProject.name = 'Calculatrice du Prof'
 
 dependencyResolutionManagement {
   versionCatalogs {

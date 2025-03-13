@@ -27,6 +27,7 @@
         <data android:scheme="myapp"/>
         <data android:scheme="com.takiacademy.calculator"/>
         <data android:scheme="exp+takiacademy-calculator"/>
+        <data android:scheme="exp+calculatrice-du-prof"/>
       </intent-filter>
     </activity>
   </application>

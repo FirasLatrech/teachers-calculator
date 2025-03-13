@@ -26,7 +26,6 @@ export const defaultButtonConfig: ButtonConfig[] = [
 
 // Helper function to generate default grid values based on size
 export const generateDefaultGrid = (size: number): (number | null)[][] => {
-  // Default 20 values (5x4 grid)
   if (size === 20) {
     return [
       [0.25, 0.5, 0.75, 1.0],
@@ -37,39 +36,35 @@ export const generateDefaultGrid = (size: number): (number | null)[][] => {
     ];
   }
 
-  // 16 values (4x4 grid)
   if (size === 16) {
     return [
       [0.25, 0.5, 0.75, 1.0],
-      [1.5, 2.0, 2.5, 3.0],
-      [3.5, 4.0, 4.5, 5.0],
-      [5.5, 6.0, 7.5, 10.0],
+      [1.25, 1.5, 1.75, 2.0],
+      [2.25, 2.5, 2.75, 3.0],
+      [3.25, 3.5, 3.75, 4.0],
     ];
   }
 
-  // 12 values (3x4 grid)
   if (size === 12) {
     return [
-      [0.5, 1.0, 1.5, 2.0],
-      [2.5, 3.0, 4.0, 5.0],
-      [6.0, 7.0, 8.0, 10.0],
+      [0.25, 0.5, 0.75, 1.0],
+      [1.25, 1.5, 1.75, 2.0],
+      [2.25, 2.5, 2.75, 3.0],
     ];
   }
 
-  // 9 values (3x3 grid)
   if (size === 9) {
     return [
-      [0.5, 1.0, 1.5],
-      [2.0, 3.0, 4.0],
-      [5.0, 7.5, 10.0],
+      [0.25, 0.5, 0.75],
+      [1.0, 1.25, 1.5],
+      [1.75, 2.0, 2.25],
     ];
   }
 
-  // 6 values (2x3 grid)
   if (size === 6) {
     return [
-      [1.0, 2.0, 3.0],
-      [5.0, 7.0, 10.0],
+      [0.25, 0.5, 0.75],
+      [1.0, 1.25, 1.5],
     ];
   }
 

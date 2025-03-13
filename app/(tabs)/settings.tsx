@@ -12,6 +12,7 @@ import {
   Modal,
   TouchableWithoutFeedback,
   Share as RNShare,
+  DeviceEventEmitter,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -42,8 +43,14 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/hooks/useTheme';
 import { useRouter } from 'expo-router';
 import { useButtonConfig, ButtonConfig } from '@/hooks/useButtonConfig';
+import { useFeedback } from '@/hooks/useSound';
 import { formatNumber } from '@/utils/formatters';
 import Animated from 'react-native-reanimated';
+import {
+  updateAppName,
+  getLocalizedAppName,
+  LANGUAGE_CHANGE_EVENT,
+} from '@/utils/appName';
 
 // Extended colors for our enhanced UI
 const extendedColors = {
@@ -68,9 +75,14 @@ export default function SettingsScreen() {
     updatePointValue,
     resetPointValues,
   } = useButtonConfig();
+  const {
+    soundEnabled,
+    vibrationEnabled,
+    setSoundEnabled,
+    setVibrationEnabled,
+    playFeedback,
+  } = useFeedback();
 
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const [vibrationEnabled, setVibrationEnabled] = useState(true);
   const [minPoint, setMinPoint] = useState('0');
   const [maxPoint, setMaxPoint] = useState('20');
   const [reorderMode, setReorderMode] = useState(false);
@@ -81,6 +93,25 @@ export default function SettingsScreen() {
   const [editingCol, setEditingCol] = useState(-1);
   const [editValue, setEditValue] = useState('');
 
+  // Add a state for the app name to ensure it updates when the language changes
+  const [localizedAppName, setLocalizedAppName] = useState(
+    getLocalizedAppName()
+  );
+
+  useEffect(() => {
+    // Update the app name when the language changes
+    const subscription = DeviceEventEmitter.addListener(
+      LANGUAGE_CHANGE_EVENT,
+      () => {
+        setLocalizedAppName(getLocalizedAppName());
+      }
+    );
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
   useEffect(() => {
     loadSettings();
   }, []);
@@ -90,12 +121,8 @@ export default function SettingsScreen() {
       const settings = await AsyncStorage.getItem('calculatorSettings');
       if (settings) {
         const parsedSettings = JSON.parse(settings);
-        setSoundEnabled(parsedSettings.soundEnabled ?? true);
-        setVibrationEnabled(parsedSettings.vibrationEnabled ?? true);
-        setMinPoint(parsedSettings.minPoint ?? '0');
-        setMaxPoint(parsedSettings.maxPoint ?? '5');
-
-        // Button config is now handled by the context
+        setMinPoint(parsedSettings.minPoint || '0');
+        setMaxPoint(parsedSettings.maxPoint || '20');
       }
     } catch (error) {
       console.error('Failed to load settings:', error);
@@ -104,13 +131,15 @@ export default function SettingsScreen() {
 
   const saveSettings = async () => {
     try {
-      const settings = {
-        soundEnabled,
-        vibrationEnabled,
-        minPoint,
-        maxPoint,
-        // No need to include buttonConfig here as it's handled by the context
-      };
+      // First get any existing settings to avoid overwriting other settings
+      const settingsStr = await AsyncStorage.getItem('calculatorSettings');
+      const settings = settingsStr ? JSON.parse(settingsStr) : {};
+
+      // Update only our specific settings
+      settings.minPoint = minPoint;
+      settings.maxPoint = maxPoint;
+
+      // Save back to AsyncStorage
       await AsyncStorage.setItem(
         'calculatorSettings',
         JSON.stringify(settings)
@@ -120,9 +149,10 @@ export default function SettingsScreen() {
     }
   };
 
+  // Update settings whenever minPoint or maxPoint changes
   useEffect(() => {
     saveSettings();
-  }, [soundEnabled, vibrationEnabled, minPoint, maxPoint]);
+  }, [minPoint, maxPoint]);
 
   const clearAllData = async () => {
     Alert.alert(
@@ -155,11 +185,15 @@ export default function SettingsScreen() {
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
+    playFeedback('success');
+    // The language change event will trigger the app name update
+    // through the DeviceEventEmitter
   };
 
   const restartTutorial = async () => {
     try {
       await AsyncStorage.removeItem('tutorialShown');
+      playFeedback('success');
 
       await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -169,17 +203,20 @@ export default function SettingsScreen() {
       });
     } catch (error) {
       console.error('Failed to restart tutorial:', error);
+      playFeedback('error');
     }
   };
 
   // Toggle reorder mode for buttons
   const toggleReorderMode = () => {
     setReorderMode(!reorderMode);
+    playFeedback('input');
   };
 
   // Function to select grid size
   const selectGridSize = (size: number) => {
     changeGridSize(size);
+    playFeedback('success');
     Alert.alert(
       t('settings.gridSizeChanged.title') || 'Grid Size Changed',
       t('settings.gridSizeChanged.message', { size }) ||
@@ -195,6 +232,7 @@ export default function SettingsScreen() {
     setEditingCol(colIndex);
     setEditValue(currentValue !== null ? currentValue.toString() : '');
     setIsEditingValue(true);
+    playFeedback('input');
   };
 
   // Function to save edited value
@@ -203,6 +241,7 @@ export default function SettingsScreen() {
 
     const numValue = parseFloat(editValue);
     if (isNaN(numValue)) {
+      playFeedback('error');
       Alert.alert(
         t('calculator.invalidNumber.title') || 'Invalid Number',
         t('calculator.invalidNumber.message') || 'Please enter a valid number.',
@@ -215,6 +254,7 @@ export default function SettingsScreen() {
     setIsEditingValue(false);
     setEditingRow(-1);
     setEditingCol(-1);
+    playFeedback('success');
   };
 
   // Function to delete a point value
@@ -225,17 +265,23 @@ export default function SettingsScreen() {
     setIsEditingValue(false);
     setEditingRow(-1);
     setEditingCol(-1);
+    playFeedback('warning');
   };
 
   // Add share app function
   const shareApp = async () => {
     try {
       await RNShare.share({
-        message: t('settings.shareAppMessage'),
+        message: t('settings.shareAppMessage').replace(
+          'Taki Academy Calculator',
+          getLocalizedAppName()
+        ),
         title: t('settings.shareApp'),
       });
+      playFeedback('success');
     } catch (error) {
       console.error('Error sharing app:', error);
+      playFeedback('error');
     }
   };
 
@@ -934,7 +980,10 @@ export default function SettingsScreen() {
             </View>
             <Switch
               value={soundEnabled}
-              onValueChange={setSoundEnabled}
+              onValueChange={(value) => {
+                setSoundEnabled(value);
+                playFeedback('input');
+              }}
               trackColor={{ false: '#767577', true: '#35bbe3' }}
               thumbColor="#f4f3f4"
             />
@@ -947,7 +996,12 @@ export default function SettingsScreen() {
             </View>
             <Switch
               value={vibrationEnabled}
-              onValueChange={setVibrationEnabled}
+              onValueChange={(value) => {
+                setVibrationEnabled(value);
+                if (value) {
+                  playFeedback('input');
+                }
+              }}
               trackColor={{ false: '#767577', true: '#35bbe3' }}
               thumbColor="#f4f3f4"
             />
@@ -1036,6 +1090,24 @@ export default function SettingsScreen() {
                   16
                 </Text>
               </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[
+                  styles.gridSizeButton,
+                  pointConfig.gridSize === 20 && styles.gridSizeButtonActive,
+                ]}
+                onPress={() => selectGridSize(20)}
+              >
+                <Text
+                  style={[
+                    styles.gridSizeButtonText,
+                    pointConfig.gridSize === 20 &&
+                      styles.gridSizeButtonTextActive,
+                  ]}
+                >
+                  20
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -1076,7 +1148,10 @@ export default function SettingsScreen() {
                     {
                       text: t('settings.resetPoints.confirm') || 'Reset',
                       style: 'destructive',
-                      onPress: resetPointValues,
+                      onPress: () => {
+                        resetPointValues();
+                        playFeedback('warning');
+                      },
                     },
                   ],
                   { cancelable: true }
@@ -1147,7 +1222,10 @@ export default function SettingsScreen() {
                   {
                     text: t('settings.resetConfig.confirm') || 'Reset',
                     style: 'destructive',
-                    onPress: resetToDefaults,
+                    onPress: () => {
+                      resetToDefaults();
+                      playFeedback('warning');
+                    },
                   },
                 ],
                 { cancelable: true }
@@ -1184,7 +1262,7 @@ export default function SettingsScreen() {
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.versionText}>Taki Academy Calculator v1.0.0</Text>
+          <Text style={styles.versionText}>{localizedAppName} v1.0.0</Text>
           <Text style={styles.versionText}>{t('settings.madeWith')}</Text>
         </View>
       </ScrollView>

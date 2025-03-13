@@ -8,14 +8,15 @@ import { useFrameworkReady } from '@/hooks/useFrameworkReady';
 import { ThemeProvider, useTheme } from '@/hooks/useTheme';
 import '../i18n';
 import { ButtonConfigProvider } from '@/hooks/useButtonConfig';
-import { View } from 'react-native';
+import { View, DeviceEventEmitter } from 'react-native';
+import { updateAppName, LANGUAGE_CHANGE_EVENT } from '@/utils/appName';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete
 SplashScreen.preventAutoHideAsync();
 
 // Separate component for the app content to be able to use the useTheme hook inside
 function AppContent() {
-  const { isDarkMode } = useTheme();
+  const { theme, isDarkMode, colors } = useTheme();
   const [showLoading, setShowLoading] = useState(true);
   const [loaded, error] = useFonts({
     'Poppins-Regular': require('../assets/fonts/Poppins-Regular.ttf'),
@@ -32,6 +33,25 @@ function AppContent() {
       }, 2000);
     }
   }, [loaded]);
+
+  useEffect(() => {
+    // Set the app name based on the current language when the app starts
+    updateAppName();
+
+    // Listen for language changes
+    const subscription = DeviceEventEmitter.addListener(
+      LANGUAGE_CHANGE_EVENT,
+      () => {
+        // Update the app name when the language changes
+        updateAppName();
+      }
+    );
+
+    // Clean up the subscription when the component unmounts
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   if (!loaded && !error) {
     return null;
