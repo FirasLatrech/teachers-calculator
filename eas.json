@@ -6,10 +6,24 @@
           "gradleCommand": ":app:assembleRelease",
           "withoutCredentials": true
         }
+      },
+      "production": {
+        "android": {
+          "buildType": "app-bundle",
+          "gradleCommand": ":app:bundleRelease"
+        }
+      }
+    },
+    "submit": {
+      "production": {
+        "android": {
+          "serviceAccountKeyPath": "./path-to-your-service-account-key.json",
+          "track": "production"
+        }
       }
     },
     "cli": {
-      "version": "7.8.5",
+      "version": "15.0.15",
       "requireCommit": false,
       "promptToConfigurePushNotifications": false
     }

@@ -32,15 +32,15 @@ const StudentNameModal: React.FC<StudentNameModalProps> = ({
   const { colors } = useTheme();
   const [error, setError] = useState<string | null>(null);
 
-  // Validate input to accept only numbers
+  // Validate input to accept only numbers, but preserve leading zeros
   const handleChangeText = (text: string) => {
-    // Remove any non-numeric characters
+    // Remove any non-numeric characters but keep the text as a string
     const numericValue = text.replace(/[^0-9]/g, '');
 
     // Clear error when user types
     if (error) setError(null);
 
-    // Update the student number
+    // Update the student number (preserving leading zeros)
     onChangeStudentName(numericValue);
   };
 
@@ -57,7 +57,7 @@ const StudentNameModal: React.FC<StudentNameModalProps> = ({
     // Check if the student number exists (if validation is required)
     if (
       existingStudentNumbers.length > 0 &&
-      !existingStudentNumbers.includes(studentName)
+      !existingStudentNumbers.some((num) => num === studentName)
     ) {
       setError(
         t('calculator.studentNumberNotFound') || 'Student number not found'
