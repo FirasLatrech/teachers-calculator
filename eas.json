@@ -24,6 +24,7 @@
     },
     "cli": {
       "version": "15.0.15",
+      "appVersionSource": "remote",
       "requireCommit": false,
       "promptToConfigurePushNotifications": false
     }
