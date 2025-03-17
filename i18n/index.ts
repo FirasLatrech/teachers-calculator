@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { DeviceEventEmitter } from 'react-native';
+import 'intl-pluralrules';
 
 import en from './locales/en';
 import fr from './locales/fr';
@@ -19,6 +20,7 @@ i18n.use(initReactI18next).init({
   interpolation: {
     escapeValue: false,
   },
+  compatibilityJSON: 'v3',
 });
 
 // Add a language change listener to update the app name
