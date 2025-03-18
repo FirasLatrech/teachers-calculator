@@ -13,10 +13,14 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "updates": {
+      "enabled": true
+    },
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.takiacademy.calculator"
+      "bundleIdentifier": "com.takiacademy.calculator",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
@@ -25,6 +29,7 @@
       },
       "package": "com.takiacademy.calculator"
     },
+    "developmentClient": false,
     "web": {
       "bundler": "metro",
       "output": "static",
